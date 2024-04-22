@@ -1,0 +1,55 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    background-color: #1d1d1d;
+    font-family: 'Raleway';
+}
+
+
+
+div.result{
+   
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 60px;
+}
+h1{
+    color: white;
+    font-size: 60px;
+}
+
+section.container{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 450px);
+    gap: 25px;
+    justify-items: center;
+    align-content: center;
+    margin: 50px;
+}
+section.container div.card{
+    background-color: #eee;
+    border: 2px solid #eee;
+}
+section.container div.card img{
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+section.container div.card div.content{
+    margin: 16px;
+    line-height: 1.6;
+}
+span.type{
+    font-weight: bold;
+    color: red;
+}
+span.power{
+    font-weight: bold;
+    color: green;
+}

@@ -21,6 +21,10 @@ let pokemon_list = [
   { id: 334, name: 'Altaria', type: 'Dragon', base_experience: 290 },
 ]
 
+let pokemonNames = document.querySelectorAll('h2');
+let pokemonTypes = document.querySelectorAll('.type');
+let pokemonPower = document.querySelectorAll('.power');
+let pokemonImages = document.querySelectorAll('img');
 
 let startGame = document.querySelector('h1');
 
@@ -29,54 +33,42 @@ startGame.setAttribute("style", "cursor: pointer; onmouseover:cursor='pointer';"
 startGame.addEventListener('click', play);
 
 function play() {
-  let pokemonNames = document.querySelectorAll('h2');
-  let pokemonTypes = document.querySelectorAll('.type');
-  let pokemonPower = document.querySelectorAll('.power');
-  let pokemonImages = document.querySelectorAll('img');
-
+  let scor = [0, 0];
   for (let i = 0; i < 8; i++) {
     let randomNumber = Math.floor(Math.random() * pokemon_list.length);
 
-    pokemonNames[i].textContent = pokemon_list[randomNumber].name;
-    pokemonTypes[i].textContent = pokemon_list[randomNumber].type;
-    pokemonPower[i].textContent = pokemon_list[randomNumber].base_experience;
-
-    let id = pokemon_list[randomNumber].id.toString();
-
-    switch (id.length) {
-      case 1:
-        pokemonImages[i].setAttribute('src', 'https://assets.pokemon.com/assets/cms2/img/pokedex/detail/00' + id + '.png');
-        break;
-      case 2:
-        pokemonImages[i].setAttribute('src', 'https://assets.pokemon.com/assets/cms2/img/pokedex/detail/0' + id + '.png');
-        break;
-      case 3:
-        pokemonImages[i].setAttribute('src', 'https://assets.pokemon.com/assets/cms2/img/pokedex/detail/' + id + '.png');
-        break;
-      default:
-        console.log("Error");
-        break;
-    }
+    pokemonDetails(i, randomNumber);
+    pokemonImagesRandom(i, randomNumber);
+    pokemonScore(i, randomNumber, scor);
+    showScore(scor);
   }
+}
 
-  let sumGrup1 = 0;
-  let sumGrup2 = 0;
+function pokemonDetails(index, getRandomNumber) {
+  pokemonNames[index].textContent = pokemon_list[getRandomNumber].name;
+  pokemonTypes[index].textContent = pokemon_list[getRandomNumber].type;
+  pokemonPower[index].textContent = pokemon_list[getRandomNumber].base_experience;
+}
 
+function pokemonImagesRandom(index, getRandomNumber) {
+  let id = String(pokemon_list[getRandomNumber].id).padStart(3, '0');
+  let imgUrl = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${id}.png`;
+  pokemonImages[index].src = imgUrl;
+}
 
-  for (let i = 0; i < 4; i++) {
-    sumGrup1 += Number(pokemonPower[i].textContent);
+function pokemonScore(index, getRandomNumber, scor) {
+  if(index < 4){
+    scor[0] += pokemon_list[getRandomNumber].base_experience;
+  }else {
+    scor[1] += pokemon_list[getRandomNumber].base_experience;
   }
-  for (let i = 4; i < 8; i++) {
-    sumGrup2 += Number(pokemonPower[i].textContent);
-  }
+}
 
-  if (sumGrup1 > sumGrup2) {
-    startGame.textContent = "Result: Grup1 is Winner: " + sumGrup1;
-  } else if (sumGrup1 < sumGrup2) {
-    startGame.textContent = "Result: Grup2 is Winner: " + sumGrup2;
-  } else if (sumGrup1 === sumGrup2) {
-    startGame.textContent = "Result: Grup1 Draw Grup2: " + sumGrup1;
-  } else {
-    alert('Something went wrong');
+function showScore(scor) {
+  let result = document.querySelector('h1');
+  if(scor[0] > scor[1]){
+    result.textContent = `Player 1 wins = ${scor[0]}`;
+  }else {
+    result.textContent = `Player 2 wins = ${scor[1]}`;
   }
 }
